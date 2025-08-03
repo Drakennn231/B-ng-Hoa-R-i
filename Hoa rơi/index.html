@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bí mật của Bánh Xíu</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(180deg, #fff0f5, #ffe6f0);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: 'Segoe UI', sans-serif;
+        overflow: hidden;
+        position: relative;
+    }
+
+    /* LOGIN */
+    #login {
+        text-align: center;
+        z-index: 10;
+    }
+    input[type="password"] {
+        padding: 10px;
+        font-size: 16px;
+        border: 2px solid #ff69b4;
+        border-radius: 8px;
+    }
+    button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background: #ff69b4;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+    #error-msg {
+        color: red;
+        font-size: 22px;
+        font-weight: bold;
+        margin-top: 15px;
+        display: none;
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    /* LỜI CHÚC */
+    #message {
+        display: none;
+        font-size: 30px;
+        font-weight: bold;
+        color: #d63384;
+        text-align: center;
+        animation: fadeIn 2s ease-in-out;
+        position: relative;
+        z-index: 5;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.8); }
+        to { opacity: 1; transform: scale(1); }
+    }
+
+    /* HOA XOAY */
+    .flower {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        animation: float 10s linear infinite;
+    }
+    @keyframes float {
+        0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+        20% { opacity: 1; }
+        100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+    }
+
+    .flower span {
+        position: absolute;
+        width: 30px;
+        height: 60px;
+        background: pink;
+        border-radius: 50%;
+        top: 10px;
+        left: 25px;
+        transform-origin: bottom center;
+        animation: rotate 3s linear infinite;
+    }
+    .flower span:nth-child(1) { transform: rotate(0deg); }
+    .flower span:nth-child(2) { transform: rotate(72deg); }
+    .flower span:nth-child(3) { transform: rotate(144deg); }
+    .flower span:nth-child(4) { transform: rotate(216deg); }
+    .flower span:nth-child(5) { transform: rotate(288deg); }
+
+    @keyframes rotate {
+        0% { transform: scale(1) rotate(0deg); }
+        50% { transform: scale(1.1) rotate(10deg); }
+        100% { transform: scale(1) rotate(0deg); }
+    }
+
+    /* CHỮ CHẠY NGANG */
+    #love-text {
+        display: none;
+        position: absolute;
+        bottom: 100px;
+        font-size: 40px;
+        font-weight: bold;
+        color: #ff1493;
+        white-space: nowrap;
+        animation: slide 10s linear forwards;
+        z-index: 10;
+    }
+    @keyframes slide {
+        0% { left: 100%; }
+        100% { left: -100%; }
+    }
+
+    /* CÂY ĐỘNG */
+    .tree-container {
+        display: none;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%) translateY(100%);
+        animation: growUp 3s ease-out forwards;
+    }
+
+    @keyframes growUp {
+        0% { transform: translateX(-50%) translateY(100%) scale(0.2); opacity: 0; }
+        100% { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; }
+    }
+
+    .stem {
+        width: 10px;
+        height: 250px;
+        background: #2e8b57;
+        margin: 0 auto;
+        position: relative;
+        animation: sway 3s infinite ease-in-out alternate;
+    }
+
+    @keyframes sway {
+        0% { transform: rotate(-2deg); }
+        100% { transform: rotate(2deg); }
+    }
+
+    .leaf {
+        width: 40px;
+        height: 20px;
+        background: #3cb371;
+        border-radius: 50% 50% 0 50%;
+        position: absolute;
+        animation: sway 3s infinite ease-in-out alternate;
+    }
+    .leaf-left { left: -40px; top: 70px; transform: rotate(-30deg); }
+    .leaf-right { right: -40px; top: 120px; transform: rotate(30deg); }
+
+    .flower-top {
+        position: absolute;
+        width: 70px;
+        height: 70px;
+        animation: bloom 3s ease-out forwards;
+    }
+
+    .flower1 { top: -70px; left: -30px; }
+    .flower2 { top: -20px; left: -80px; }
+    .flower3 { top: 20px; left: 20px; }
+
+    .petal {
+        position: absolute;
+        width: 30px;
+        height: 50px;
+        background: pink;
+        border-radius: 50%;
+        top: 10px;
+        left: 20px;
+        transform-origin: bottom center;
+        animation: rotatePetal 3s infinite ease-in-out;
+    }
+
+    .petal:nth-child(1) { transform: rotate(0deg); }
+    .petal:nth-child(2) { transform: rotate(72deg); }
+    .petal:nth-child(3) { transform: rotate(144deg); }
+    .petal:nth-child(4) { transform: rotate(216deg); }
+    .petal:nth-child(5) { transform: rotate(288deg); }
+
+    @keyframes rotatePetal {
+        0% { transform: scale(1) rotate(0deg); }
+        50% { transform: scale(1.1) rotate(5deg); }
+        100% { transform: scale(1) rotate(0deg); }
+    }
+
+    /* ĐOM ĐÓM */
+    .firefly {
+        width: 10px;
+        height: 10px;
+        background: yellow;
+        border-radius: 50%;
+        position: absolute;
+        animation: fly 6s linear infinite;
+        opacity: 0.8;
+    }
+
+    @keyframes fly {
+        0% { transform: translate(0,0); }
+        25% { transform: translate(50px,-30px); }
+        50% { transform: translate(-20px,-60px); }
+        75% { transform: translate(-50px,-20px); }
+        100% { transform: translate(0,0); }
+    }
+</style>
+</head>
+<body>
+<div id="login">
+    <h2>Nhập mật khẩu để xem điều bất ngờ 🎁</h2>
+    <input type="password" id="password" placeholder="Nhập mật khẩu...">
+    <button id="submitBtn" onclick="checkPassword()">OK</button>
+    <div id="error-msg"></div>
+</div>
+
+<div id="message">Chúc em bé của Bo một buổi tối vui vẻ và nhớ chồng nhìu em bé tẻn tẻn 💖</div>
+<div id="love-text">Anh yêu Em ngốc ạ 💕</div>
+
+<!-- Cây -->
+<div class="tree-container" id="tree">
+    <div class="stem">
+        <div class="leaf leaf-left"></div>
+        <div class="leaf leaf-right"></div>
+        <div class="flower-top flower1">
+            <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        </div>
+        <div class="flower-top flower2">
+            <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        </div>
+        <div class="flower-top flower3">
+            <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+const correctPassword = "22042023"; 
+let attempts = 0;
+let locked = false;
+
+function checkPassword() {
+    if (locked) return;
+
+    const input = document.getElementById("password").value;
+    const errorMsg = document.getElementById("error-msg");
+    attempts++;
+
+    if (input === correctPassword) {
+        unlock();
+    } else {
+        errorMsg.style.display = "block";
+        if (attempts === 1) {
+            errorMsg.textContent = "Con người kiaaaa";
+        } else if (attempts === 2) {
+            errorMsg.textContent = "Em bé zị luônnnn";
+        } else if (attempts === 3) {
+            errorMsg.textContent = "Tôi giận em roàiiiiiii";
+            locked = true;
+            document.getElementById("password").disabled = true;
+            document.getElementById("submitBtn").disabled = true;
+
+            setTimeout(() => {
+                unlock(); 
+            }, 2000);
+        }
+    }
+}
+
+function unlock() {
+    document.getElementById("login").remove();
+    showMessage();
+}
+
+function showMessage() {
+    const message = document.getElementById("message");
+    message.style.display = "block";
+
+    // 3 giây sau hoa xoay
+    setTimeout(() => {
+        generateFlowers();
+    }, 3000);
+
+    // 8 giây sau chữ chạy ngang
+    setTimeout(() => {
+        const loveText = document.getElementById("love-text");
+        loveText.style.display = "block";
+
+        // Sau khi chữ chạy xong (10s) + 4s = 14s hiển thị cây
+        setTimeout(() => {
+            const tree = document.getElementById("tree");
+            tree.style.display = "block";
+            generateFireflies();
+        }, 14000);
+    }, 8000);
+}
+
+function generateFlowers() {
+    for (let i = 0; i < 15; i++) {
+        const flower = document.createElement("div");
+        flower.classList.add("flower");
+        flower.style.left = Math.random() * window.innerWidth + "px";
+        flower.style.animationDuration = (8 + Math.random() * 5) + "s";
+        flower.style.animationDelay = Math.random() * 3 + "s";
+
+        for (let j = 0; j < 5; j++) {
+            const petal = document.createElement("span");
+            petal.style.background = `hsl(${Math.random() * 30 + 330}, 70%, 80%)`;
+            flower.appendChild(petal);
+        }
+
+        document.body.appendChild(flower);
+    }
+}
+
+function generateFireflies() {
+    for (let i = 0; i < 10; i++) {
+        const firefly = document.createElement("div");
+        firefly.classList.add("firefly");
+        firefly.style.top = (window.innerHeight - 200) + "px";
+        firefly.style.left = (window.innerWidth / 2 - 100 + Math.random() * 200) + "px";
+        firefly.style.animationDelay = Math.random() * 5 + "s";
+        document.body.appendChild(firefly);
+    }
+}
+</script>
+</body>
+</html>
